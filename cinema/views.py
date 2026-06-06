@@ -19,15 +19,12 @@ from cinema.serializers import (
 
 
 class GenreList(APIView):
-    def get(self, request, pk=None):
+    def get(self, request, pk):
         if pk:
             genres = Genre.objects.get(pk=pk)
             serializer = GenreSerializer(genres)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            genres_all = Genre.objects.all()
-            serializer = GenreSerializer(genres_all, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
         serializer = GenreSerializer(data=request.data)
